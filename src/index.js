@@ -1,0 +1,33 @@
+// run app
+import app from "./app";
+import sequelize from "./database";
+
+import "./models/BranchesOffice";
+import "./models/Role";
+import "./models/VictimRelatioship";
+import "./models/User";
+import "./models/City";
+import "./models/ComplainantInformation";
+import "./models/DenouncedInformation";
+import "./models/InstructionDegree";
+import "./models/Occupation";
+import "./models/Peoople";
+import "./models/ProceduralStage";
+import "./models/Record";
+import "./models/RegisterTypology";
+import "./models/SexualOrientation";
+import "./models/StageCase";
+import "./models/VictimInformation";
+import "./models/Typology";
+import "./models/SecondaryTypology";
+const main = async () => {
+  try {
+    await sequelize.sync({ force: true });
+    app.listen(4000);
+    console.log("server listen on port ", 4000);
+  } catch (error) {
+    console.log("no se pudo conectar con la base de datos");
+  }
+};
+
+main();
