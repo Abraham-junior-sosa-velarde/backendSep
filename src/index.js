@@ -1,7 +1,7 @@
 // run app
 import app from "./app";
 import sequelize from "./database";
-
+/*
 import "./models/BranchesOffice";
 import "./models/Role";
 import "./models/VictimRelatioship";
@@ -14,15 +14,14 @@ import "./models/Occupation";
 import "./models/Peoople";
 import "./models/ProceduralStage";
 import "./models/Record";
-import "./models/RegisterTypology";
+import "./models/RegisterCrimes";
 import "./models/SexualOrientation";
 import "./models/StageCase";
 import "./models/VictimInformation";
-import "./models/Typology";
-import "./models/SecondaryTypology";
+import "./models/Crimes";*/
 const main = async () => {
   try {
-    await sequelize.sync({ force: true });
+    await sequelize.sync(/*{ force: true }*/);
     app.listen(4000);
     console.log("server listen on port ", 4000);
   } catch (error) {

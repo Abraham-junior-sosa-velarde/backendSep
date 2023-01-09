@@ -2,7 +2,11 @@ import BranchOffice from "../models/BranchesOffice";
 
 export const getBranchesOffices = async (req, res) => {
   try {
-    const branches = await BranchOffice.findAll();
+    const branches = await BranchOffice.findAll({
+      attributes: {
+        exclude: ["createdAt", "updatedAt"],
+      },
+    });
     res.status(200).json(branches);
   } catch (error) {
     return res.status(500).json({ message: error.message });

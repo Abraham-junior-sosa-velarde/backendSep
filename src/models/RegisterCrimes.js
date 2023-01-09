@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database";
 
-const RegisterTypology = sequelize.define("registroTipologias", {
+const RegisterCrimes = sequelize.define("registroDelitos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -18,4 +18,4 @@ const RegisterTypology = sequelize.define("registroTipologias", {
   },
 });
 
-export default RegisterTypology;
+export default RegisterCrimes;

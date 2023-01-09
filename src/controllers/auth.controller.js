@@ -11,6 +11,7 @@ export const signUp = async (req, res) => {
     estado,
     rolId,
     sucursalId,
+    cargo,
   } = req.body;
   try {
     const newUser = await User.create({
@@ -21,6 +22,7 @@ export const signUp = async (req, res) => {
       estado,
       rolId,
       sucursalId,
+      cargo,
     });
     const token = jsw.sign({ id: newUser.id }, config.SECRET, {
       expiresIn: 86400, //24 horas

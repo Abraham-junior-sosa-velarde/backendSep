@@ -2,7 +2,7 @@ import { DataTypes } from "sequelize";
 import sequelize from "../database";
 import ComplainantInformation from "./ComplainantInformation";
 import DenouncedInformation from "./DenouncedInformation";
-import RegisterTypology from "./RegisterTypology";
+import RegisterCrimes from "./RegisterCrimes";
 import StageCase from "./StageCase";
 import VictimInformation from "./VictimInformation";
 
@@ -73,13 +73,13 @@ StageCase.belongsTo(Record, {
   allowNull: false,
 });
 //relacion uno a muchos
-Record.hasMany(RegisterTypology, {
+Record.hasMany(RegisterCrimes, {
   foreignKey: "registroId",
   sourceKey: "id",
   allowNull: false,
 });
 //relacion uno a muchos (inversa)
-RegisterTypology.belongsTo(Record, {
+RegisterCrimes.belongsTo(Record, {
   foreignKey: "registroId",
   targetId: "id",
   allowNull: false,

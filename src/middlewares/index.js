@@ -1,3 +1,3 @@
-import { isAdmin, verifyToken } from "./authJwt";
+import { isAdmin, verifyToken, isOperator, isGuest } from "./authJwt";
 import { isActive } from "./isActive";
-export { verifyToken, isAdmin, isActive };
+export { verifyToken, isAdmin, isActive, isOperator, isGuest };

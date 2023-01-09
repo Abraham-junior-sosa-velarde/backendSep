@@ -19,6 +19,10 @@ const User = sequelize.define("usuarios", {
     type: DataTypes.STRING(45),
     allowNull: false,
   },
+  cargo: {
+    type: DataTypes.STRING(45),
+    allowNull: false,
+  },
   correoElectronico: {
     type: DataTypes.STRING(100),
     allowNull: false,

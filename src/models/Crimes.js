@@ -1,8 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database";
-import RegisterTypology from "./RegisterTypology";
+import RegisterCrimes from "./RegisterCrimes";
 
-const SecondaryTypology = sequelize.define("tipologiasSecundarias", {
+const Crimes = sequelize.define("delitos", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,21 +11,22 @@ const SecondaryTypology = sequelize.define("tipologiasSecundarias", {
     unique: true,
   },
   nombre: {
-    type: DataTypes.STRING(20),
+    type: DataTypes.STRING(100),
     allowNull: false,
     unique: true,
   },
 });
 //relacion uno a muchos
-SecondaryTypology.hasMany(RegisterTypology, {
-  foreignKey: "tipologiaSecundariaId",
+Crimes.hasMany(RegisterCrimes, {
+  foreignKey: "tipologiaId",
   sourceKey: "id",
   allowNull: false,
 });
 //relacion uno a muchos (inversa)
-RegisterTypology.belongsTo(SecondaryTypology, {
-  foreignKey: "tipologiaSecundariaId",
+RegisterCrimes.belongsTo(Crimes, {
+  foreignKey: "tipologiaId",
   targetId: "id",
   allowNull: false,
 });
-export default SecondaryTypology;
+
+export default Crimes;
