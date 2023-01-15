@@ -1,7 +1,7 @@
 export default {
   SECRET: "Sep20davi22Project2022",
 };
-export const PORT = process.env.PORT || 4000;
+export const PORT = process.env.PORT || 3000;
 
 export const DB_HOST = process.env.DB_HOST || "localhost";
 
