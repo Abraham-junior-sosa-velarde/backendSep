@@ -1,6 +1,7 @@
 import Sequelize from "sequelize";
-const sequelize = new Sequelize("sepdaviDB", "postgres", "juniorsosa", {
-  host: "localhost",
+import { DB_HOST, DB_PASSWORD, DB_NAME } from "./config";
+const sequelize = new Sequelize(DB_NAME, "postgres", DB_PASSWORD, {
+  host: DB_HOST,
   dialect: "postgres",
 });
 

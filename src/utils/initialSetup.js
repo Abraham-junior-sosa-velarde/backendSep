@@ -1,4 +1,5 @@
 import Role from "../models/Role";
+import User from "../models/User";
 //Crear roles por defecto al iniciar app
 
 export const createRoles = async () => {
@@ -10,6 +11,16 @@ export const createRoles = async () => {
       Role.create({ nombre: "Operador" }),
       Role.create({ nombre: "Invitado" }),
     ]);
+    const usuario = await User.create({
+      nombre: "Admin",
+      apellido: "Admin",
+      correoElectronico: "admin@gmail.com",
+      contrasenia: await encryptPassword("Admin123"),
+      estado: true,
+      rolId: 1,
+      sucursalId: 1,
+      cargo: "Administrador",
+    });
   } catch (error) {
     console.log(error);
   }
