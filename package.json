@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "babel src --out-dir build",
+    "build": "babel src -d build",
     "dev": "nodemon src/index.js --exec babel-node",
-    "start": "babel-node index.js --presets=@babel/preset-env"
+    "start": "node build/index.js"
   },
   "keywords": [],
   "author": "Abraham Junior Sosa Velarde",
