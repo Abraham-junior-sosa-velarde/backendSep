@@ -1,11 +1,19 @@
+import { Sequelize } from "sequelize";
 import City from "../models/City";
+import Record from "../models/Record";
 
 export const getAllCities = async (req, res) => {
   try {
     const Cities = await City.findAll({
-      attributes: {
-        exclude: ["createdAt", "updatedAt"],
-      },
+      include: [
+        {
+          model: Record,
+          attributes: [
+            [Sequelize.fn("COUNT", Sequelize.col("registros.id")), "count"],
+          ],
+        },
+      ],
+      group: ["ciudades.id", "registros.id"],
     });
     res.status(200).json(Cities);
   } catch (error) {

@@ -65,6 +65,7 @@ Record.hasMany(StageCase, {
   foreignKey: "registroId",
   sourceKey: "id",
   allowNull: false,
+  onDelete: "CASCADE",
 });
 //relacion uno a muchos (inversa)
 StageCase.belongsTo(Record, {
@@ -77,6 +78,7 @@ Record.hasMany(RegisterCrimes, {
   foreignKey: "registroId",
   sourceKey: "id",
   allowNull: false,
+  onDelete: "CASCADE",
 });
 //relacion uno a muchos (inversa)
 RegisterCrimes.belongsTo(Record, {
@@ -89,6 +91,7 @@ Record.hasMany(VictimInformation, {
   foreignKey: "registroId",
   sourceKey: "id",
   allowNull: false,
+  onDelete: "CASCADE",
 });
 //relacion uno a muchos (inversa)
 VictimInformation.belongsTo(Record, {
@@ -102,6 +105,7 @@ Record.hasMany(ComplainantInformation, {
   foreignKey: "registroId",
   sourceKey: "id",
   allowNull: false,
+  onDelete: "CASCADE",
 });
 //relacion uno a muchos (inversa)
 ComplainantInformation.belongsTo(Record, {
@@ -115,6 +119,7 @@ Record.hasMany(DenouncedInformation, {
   foreignKey: "registroId",
   sourceKey: "id",
   allowNull: false,
+  onDelete: "CASCADE",
 });
 //relacion uno a muchos (inversa)
 DenouncedInformation.belongsTo(Record, {

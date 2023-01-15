@@ -21,7 +21,7 @@ import "./models/VictimInformation";
 import "./models/Crimes";*/
 const main = async () => {
   try {
-    await sequelize.sync(/*{ force: true }*/);
+    await sequelize.sync(/*{ alter: true }*/);
     app.listen(4000);
     console.log("server listen on port ", 4000);
   } catch (error) {

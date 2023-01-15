@@ -1,11 +1,19 @@
+import { Sequelize } from "sequelize";
+import Peoople from "../models/Peoople";
 import SexualOrientation from "../models/SexualOrientation";
 
 export const getAllSexualOrientations = async (req, res) => {
   try {
     const sexualOrientations = await SexualOrientation.findAll({
-      attributes: {
-        exclude: ["createdAt", "updatedAt"],
-      },
+      include: [
+        {
+          model: Peoople,
+          attributes: [
+            [Sequelize.fn("COUNT", Sequelize.col("personas.id")), "count"],
+          ],
+        },
+      ],
+      group: ["orientacionesSexuales.id", "personas.id"],
     });
     res.status(200).json(sexualOrientations);
   } catch (error) {

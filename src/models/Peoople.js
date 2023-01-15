@@ -60,6 +60,7 @@ ComplainantInformation.belongsTo(Peoople, {
   foreignKey: "personaId",
   targetId: "id",
   allowNull: false,
+  onDelete: "CASCADE",
 });
 
 //relacion uno a uno
@@ -73,6 +74,7 @@ DenouncedInformation.belongsTo(Peoople, {
   foreignKey: "personaId",
   targetId: "id",
   allowNull: false,
+  onDelete: "CASCADE",
 });
 
 //relacion uno a uno
@@ -86,6 +88,7 @@ VictimInformation.belongsTo(Peoople, {
   foreignKey: "personaId",
   targetId: "id",
   allowNull: false,
+  onDelete: "CASCADE",
 });
 
 export default Peoople;

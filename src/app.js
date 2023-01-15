@@ -13,6 +13,8 @@ import instructionDegreeRoutes from "./routes/instructioDegree.routes";
 import occupationRoutes from "./routes/ocupation.routes";
 import sexualOrientationRoutes from "./routes/sexualOrientation.routes";
 import registerRoutes from "./routes/register.routes";
+import specificReportsRoutes from "./routes/specificReports.routes";
+import utilsRoutes from "./routes/utils.routes";
 import cors from "cors";
 const app = express();
 const corsOptions = {
@@ -45,4 +47,6 @@ app.use("/api/instructionDegree", instructionDegreeRoutes);
 app.use("/api/occupation", occupationRoutes);
 app.use("/api/sexualOrientation", sexualOrientationRoutes);
 app.use("/api/register", registerRoutes);
+app.use("/api/reporter", specificReportsRoutes);
+app.use("/api/utils", utilsRoutes);
 export default app;
