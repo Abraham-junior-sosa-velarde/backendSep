@@ -19,13 +19,12 @@ import "./models/SexualOrientation";
 import "./models/StageCase";
 import "./models/VictimInformation";
 import "./models/Crimes";
-import { PORT } from "./config";
 
 const main = async () => {
   try {
     await sequelize.sync({ alter: true });
-    app.listen(PORT);
-    console.log("server listen on port ", PORT);
+    app.listen(process.env.PORT || 3000);
+    console.log("server listen on port ", process.env.PORT || 3000);
   } catch (error) {
     console.log("no se pudo conectar con la base de datos");
   }
