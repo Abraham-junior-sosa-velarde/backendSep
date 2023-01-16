@@ -152,3 +152,58 @@ export const getSpecificReporter = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const generalReports = async (req, res) => {
+  try {
+    const data = await Record.findAll({
+      attributes: [
+        [
+          Sequelize.fn("date_part", "year", Sequelize.col("fechaRegistro")),
+          "year",
+        ],
+        [Sequelize.fn("COUNT", "*"), "count"],
+      ],
+      group: ["year"],
+      order: [[Sequelize.col("year"), "ASC"]],
+    });
+    /*const result = await Record.findAll({
+      attributes: [
+        [
+          Sequelize.fn(
+            "date_part",
+            "year",
+            Sequelize.col("registros.fechaRegistro")
+          ),
+          "year",
+        ],
+        [Sequelize.fn("COUNT", "*"), "count"],
+        "personas.sexo",
+      ],
+      include: [
+        {
+          model: VictimInformation,
+          required: true,
+          attributes: [],
+          include: [
+            {
+              model: Peoople,
+              required: true,
+              attributes: [],
+            },
+          ],
+        },
+      ],
+      group: [
+        Sequelize.fn(
+          "date_part",
+          "year",
+          Sequelize.col("registros.fechaRegistro")
+        ),
+        "personas.sexo",
+      ],
+    });*/
+    res.status(201).json({ years: data });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
