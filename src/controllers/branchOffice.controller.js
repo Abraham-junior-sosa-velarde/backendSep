@@ -1,4 +1,6 @@
+import { Sequelize } from "sequelize";
 import BranchOffice from "../models/BranchesOffice";
+import User from "../models/User";
 
 export const getBranchesOffices = async (req, res) => {
   try {
@@ -6,6 +8,15 @@ export const getBranchesOffices = async (req, res) => {
       attributes: {
         exclude: ["createdAt", "updatedAt"],
       },
+      include: [
+        {
+          model: User,
+          attributes: [
+            [Sequelize.fn("COUNT", Sequelize.col("usuarios.id")), "count"],
+          ],
+        },
+      ],
+      group: ["sucursales.id", "usuarios.id"],
     });
     res.status(200).json(branches);
   } catch (error) {

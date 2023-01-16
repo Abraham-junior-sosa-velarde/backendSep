@@ -1,6 +1,14 @@
 import { Router } from "express";
-import { getAllOcupations } from "../controllers/ocupation.controller";
+import {
+  createOccupation,
+  deleteOccupation,
+  getAllOccupations,
+  updateOccupation,
+} from "../controllers/ocupation.controller";
 const router = Router();
 
-router.get("/", getAllOcupations);
+router.get("/", getAllOccupations);
+router.post("/", createOccupation);
+router.put("/:id", updateOccupation);
+router.delete("/:id", deleteOccupation);
 export default router;

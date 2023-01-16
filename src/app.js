@@ -15,6 +15,8 @@ import sexualOrientationRoutes from "./routes/sexualOrientation.routes";
 import registerRoutes from "./routes/register.routes";
 import specificReportsRoutes from "./routes/specificReports.routes";
 import utilsRoutes from "./routes/utils.routes";
+import proceduralStageRoutes from "./routes/proceduralStage.routes";
+import victimRelationshipRoutes from "./routes/victimRelationship.routes";
 import cors from "cors";
 const app = express();
 const corsOptions = {
@@ -49,4 +51,6 @@ app.use("/api/sexualOrientation", sexualOrientationRoutes);
 app.use("/api/register", registerRoutes);
 app.use("/api/reporter", specificReportsRoutes);
 app.use("/api/utils", utilsRoutes);
+app.use("/api/proceduralStage", proceduralStageRoutes);
+app.use("/api/victimRelationship", victimRelationshipRoutes);
 export default app;
