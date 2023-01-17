@@ -17,6 +17,7 @@ import specificReportsRoutes from "./routes/specificReports.routes";
 import utilsRoutes from "./routes/utils.routes";
 import proceduralStageRoutes from "./routes/proceduralStage.routes";
 import victimRelationshipRoutes from "./routes/victimRelationship.routes";
+import stageCasesRoutes from "./routes/stageCases.routes";
 import cors from "cors";
 const app = express();
 const corsOptions = {
@@ -53,4 +54,5 @@ app.use("/api/reporter", specificReportsRoutes);
 app.use("/api/utils", utilsRoutes);
 app.use("/api/proceduralStage", proceduralStageRoutes);
 app.use("/api/victimRelationship", victimRelationshipRoutes);
+app.use("/api/stageCases", stageCasesRoutes);
 export default app;
