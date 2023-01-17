@@ -25,12 +25,22 @@ export const createProceduralStage = async (req, res) => {
   const { nombre } = req.body;
   try {
     const data = await ProceduralStage.create({ nombre });
-    res.status(201).json(data);
+    const created = await ProceduralStage.findByPk(data.id, {
+      include: [
+        {
+          model: StageCase,
+          attributes: [
+            [Sequelize.fn("COUNT", Sequelize.col("etapaCasos.id")), "count"],
+          ],
+        },
+      ],
+      group: ["etapasProcesales.id", "etapaCasos.id"],
+    });
+    res.status(201).json(created);
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
-
 export const deleteProceduralStage = async (req, res) => {
   try {
     const { id } = req.params;

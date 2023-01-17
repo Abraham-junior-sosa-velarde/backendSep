@@ -23,15 +23,60 @@ export const getBranchesOffices = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
-export const getBranchesOfficesById = (req, res) => {};
-export const creatBranchOffice = async (req, res) => {
-  const { name } = req.body;
+
+export const deleteBranchesOffices = async (req, res) => {
   try {
-    const newBranch = await BranchOffice.create({ nombre: name });
-    res.status(201).json(newBranch);
+    const { id } = req.params;
+    await BranchOffice.destroy({
+      where: {
+        id,
+      },
+    });
+    res.status(201).json("Se elimino el registro con exito");
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
 };
-export const updateBranchesOfficesById = (req, res) => {};
-export const deleteBranchesOfficesById = (req, res) => {};
+
+export const createBranchesOffices = async (req, res) => {
+  const { nombre } = req.body;
+  try {
+    const data = await BranchOffice.create({ nombre });
+    const created = await BranchOffice.findByPk(data.id, {
+      include: [
+        {
+          model: User,
+          attributes: [
+            [Sequelize.fn("COUNT", Sequelize.col("usuarios.id")), "count"],
+          ],
+        },
+      ],
+      group: ["sucursales.id", "usuarios.id"],
+    });
+    res.status(201).json(created);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+export const updateBranchesOffices = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name } = req.body;
+    const data = await BranchOffice.findByPk(id, {
+      include: [
+        {
+          model: User,
+          attributes: [
+            [Sequelize.fn("COUNT", Sequelize.col("usuarios.id")), "count"],
+          ],
+        },
+      ],
+      group: ["sucursales.id", "usuarios.id"],
+    });
+    data.nombre = name;
+    await data.save();
+    res.status(201).json(data);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};

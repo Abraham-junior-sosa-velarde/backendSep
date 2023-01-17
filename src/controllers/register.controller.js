@@ -8,6 +8,9 @@ import StageCase from "../models/StageCase";
 import ProceduralStage from "../models/ProceduralStage";
 import Crimes from "../models/Crimes";
 import { Sequelize } from "sequelize";
+import Occupation from "../models/Occupation";
+import InstructionDegree from "../models/InstructionDegree";
+import SexualOrientation from "../models/SexualOrientation";
 
 export const createRegister = async (req, res) => {
   const { register, delito, complainant, perpetrator, victim } = req.body;
@@ -178,6 +181,87 @@ export const getYearsRegister = async (req, res) => {
     });
 
     res.status(201).json(records);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+export const getSpecificReporter = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const records = await Record.findByPk(id, {
+      include: [
+        {
+          model: RegisterCrimes,
+          attributes: ["id"],
+          include: [
+            {
+              model: Crimes,
+              attributes: ["nombre"],
+            },
+          ],
+        },
+        {
+          model: VictimInformation,
+          include: [
+            {
+              model: Peoople,
+              include: [
+                {
+                  model: Occupation,
+                },
+                {
+                  model: InstructionDegree,
+                },
+                {
+                  model: SexualOrientation,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: ComplainantInformation,
+          include: [
+            {
+              model: Peoople,
+              include: [
+                {
+                  model: Occupation,
+                },
+                {
+                  model: InstructionDegree,
+                },
+                {
+                  model: SexualOrientation,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          model: DenouncedInformation,
+          include: [
+            {
+              model: Peoople,
+              include: [
+                {
+                  model: Occupation,
+                },
+                {
+                  model: InstructionDegree,
+                },
+                {
+                  model: SexualOrientation,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    res.status(201).json({ records });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

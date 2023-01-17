@@ -1,6 +1,14 @@
 import { Router } from "express";
-import { getAllVictimRelationship } from "../controllers/victimRelationship.controller";
+import {
+  createVictimRelationship,
+  deleteVictimRelationship,
+  getAllVictimRelationship,
+  updateVictimRelationship,
+} from "../controllers/victimRelationship.controller";
 const router = Router();
 
 router.get("/", getAllVictimRelationship);
+router.delete("/:id", deleteVictimRelationship);
+router.put("/:id", updateVictimRelationship);
+router.post("/", createVictimRelationship);
 export default router;

@@ -1,21 +1,16 @@
 import { Router } from "express";
-import * as branchesOfficesCtrl from "../controllers/branchOffice.controller";
+import {
+  createBranchesOffices,
+  deleteBranchesOffices,
+  getBranchesOffices,
+  updateBranchesOffices,
+} from "../controllers/branchOffice.controller";
 
 import { verifyToken, isAdmin } from "../middlewares";
 const router = Router();
 
-router.get("/", branchesOfficesCtrl.getBranchesOffices);
-router.post("/", [verifyToken, isAdmin], branchesOfficesCtrl.creatBranchOffice);
-router.get("/:branchOfficeId", branchesOfficesCtrl.getBranchesOfficesById);
-router.put(
-  "/:branchOfficeId",
-  verifyToken,
-  branchesOfficesCtrl.updateBranchesOfficesById
-);
-router.delete(
-  "/:branchOfficeId",
-  verifyToken,
-  branchesOfficesCtrl.deleteBranchesOfficesById
-);
-
+router.get("/", getBranchesOffices);
+router.delete("/:id", deleteBranchesOffices);
+router.put("/:id", updateBranchesOffices);
+router.post("/", createBranchesOffices);
 export default router;
