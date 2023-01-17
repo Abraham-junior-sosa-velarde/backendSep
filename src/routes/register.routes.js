@@ -5,11 +5,16 @@ import {
   deleteRegister,
 } from "../controllers/register.controller";
 
-import { isAdmin, isOperator, verifyToken } from "../middlewares";
+import {
+  isAdmin,
+  isAdminOrOperator,
+  isOperator,
+  verifyToken,
+} from "../middlewares";
 const router = Router();
 
-router.get("/:id", [verifyToken], getALLRegisters);
-router.post("/", [verifyToken, isAdmin], createRegister);
-router.delete("/:id", [verifyToken], deleteRegister);
+router.get("/:id", [verifyToken, isAdminOrOperator], getALLRegisters);
+router.post("/", [verifyToken, isAdminOrOperator], createRegister);
+router.delete("/:id", [verifyToken, isAdminOrOperator], deleteRegister);
 
 export default router;

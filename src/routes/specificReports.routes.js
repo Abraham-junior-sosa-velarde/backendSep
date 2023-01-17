@@ -3,9 +3,10 @@ import {
   generalReports,
   getSpecificReporter,
 } from "../controllers/specificReports.controller";
+import { verifyToken } from "../middlewares";
 const router = Router();
 
-router.post("/", getSpecificReporter);
-router.get("/general", generalReports);
+router.post("/", [verifyToken], getSpecificReporter);
+router.get("/general", [verifyToken], generalReports);
 
 export default router;

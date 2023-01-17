@@ -5,10 +5,12 @@ import {
   getAllCities,
   updateCities,
 } from "../controllers/city.controller";
+import { verifyToken, isAdmin } from "../middlewares";
+
 const router = Router();
 
 router.get("/", getAllCities);
-router.delete("/:id", deleteCities);
-router.put("/:id", updateCities);
-router.post("/", createCities);
+router.delete("/:id", [verifyToken, isAdmin], deleteCities);
+router.put("/:id", [verifyToken, isAdmin], updateCities);
+router.post("/", [verifyToken, isAdmin], createCities);
 export default router;

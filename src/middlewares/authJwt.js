@@ -27,6 +27,16 @@ export const isAdmin = async (req, res, next) => {
   if (role.nombre === "Administrador") return next();
   return res.status(403).json({ message: "Requiere el rol de Administrador" });
 };
+export const isAdminOrOperator = async (req, res, next) => {
+  const { userId } = req;
+  const user = await User.findByPk(userId);
+  const role = await Role.findOne({ where: { id: user.rolId } });
+  if (role.nombre === "Administrador" || role.nombre === "Operador")
+    return next();
+  return res
+    .status(403)
+    .json({ message: "Requiere el rol de Administrador o operador" });
+};
 export const isOperator = async (req, res, next) => {
   const { userId } = req;
   const user = await User.findByPk(userId);

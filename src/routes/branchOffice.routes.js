@@ -10,7 +10,7 @@ import { verifyToken, isAdmin } from "../middlewares";
 const router = Router();
 
 router.get("/", getBranchesOffices);
-router.delete("/:id", deleteBranchesOffices);
-router.put("/:id", updateBranchesOffices);
-router.post("/", createBranchesOffices);
+router.delete("/:id", [verifyToken, isAdmin], deleteBranchesOffices);
+router.put("/:id", [verifyToken, isAdmin], updateBranchesOffices);
+router.post("/", [verifyToken, isAdmin], createBranchesOffices);
 export default router;

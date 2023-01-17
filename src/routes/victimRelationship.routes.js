@@ -5,10 +5,12 @@ import {
   getAllVictimRelationship,
   updateVictimRelationship,
 } from "../controllers/victimRelationship.controller";
+import { verifyToken, isAdmin } from "../middlewares";
+
 const router = Router();
 
 router.get("/", getAllVictimRelationship);
-router.delete("/:id", deleteVictimRelationship);
-router.put("/:id", updateVictimRelationship);
-router.post("/", createVictimRelationship);
+router.delete("/:id", [verifyToken, isAdmin], deleteVictimRelationship);
+router.put("/:id", [verifyToken, isAdmin], updateVictimRelationship);
+router.post("/", [verifyToken, isAdmin], createVictimRelationship);
 export default router;

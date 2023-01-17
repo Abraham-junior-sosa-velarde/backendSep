@@ -1,4 +1,5 @@
 import { Sequelize } from "sequelize";
+import sequelize from "../database";
 import City from "../models/City";
 import Crimes from "../models/Crimes";
 import InstructionDegree from "../models/InstructionDegree";
@@ -7,6 +8,7 @@ import Peoople from "../models/Peoople";
 import Record from "../models/Record";
 import RegisterCrimes from "../models/RegisterCrimes";
 import SexualOrientation from "../models/SexualOrientation";
+import StageCase from "../models/StageCase";
 import VictimInformation from "../models/VictimInformation";
 
 export const getSpecificReporter = async (req, res) => {
@@ -155,6 +157,8 @@ export const getSpecificReporter = async (req, res) => {
 
 export const generalReports = async (req, res) => {
   try {
+    var currentDate = new Date();
+
     const data = await Record.findAll({
       attributes: [
         [
@@ -166,43 +170,64 @@ export const generalReports = async (req, res) => {
       group: ["year"],
       order: [[Sequelize.col("year"), "ASC"]],
     });
-    /*const result = await Record.findAll({
-      attributes: [
-        [
+    const registroAux = await Record.findAll({
+      where: [
+        Sequelize.where(
           Sequelize.fn(
-            "date_part",
-            "year",
-            Sequelize.col("registros.fechaRegistro")
+            "EXTRACT",
+            Sequelize.literal('MONTH FROM "fechaRegistro"')
           ),
-          "year",
-        ],
-        [Sequelize.fn("COUNT", "*"), "count"],
-        "personas.sexo",
+          { [Sequelize.Op.in]: [currentDate.getMonth() + 1] }
+        ),
+        Sequelize.where(
+          Sequelize.fn(
+            "EXTRACT",
+            Sequelize.literal('YEAR FROM "fechaRegistro"')
+          ),
+          { [Sequelize.Op.in]: [currentDate.getFullYear()] }
+        ),
       ],
       include: [
         {
+          model: City,
+        },
+        {
           model: VictimInformation,
-          required: true,
-          attributes: [],
           include: [
             {
               model: Peoople,
-              required: true,
-              attributes: [],
+              include: [
+                { model: SexualOrientation },
+                {
+                  model: InstructionDegree,
+                },
+                {
+                  model: Occupation,
+                },
+              ],
             },
           ],
         },
       ],
-      group: [
-        Sequelize.fn(
-          "date_part",
-          "year",
-          Sequelize.col("registros.fechaRegistro")
-        ),
-        "personas.sexo",
-      ],
-    });*/
-    res.status(201).json({ years: data });
+    });
+    const departament = Object.values(
+      registroAux.reduce((acc, obj) => {
+        acc[obj.ciudade.nombre] = acc[obj.ciudade.nombre] || [];
+        acc[obj.ciudade.nombre].push(obj.ciudade.nombre);
+        return acc;
+      }, {})
+    );
+    const sexVictim = Object.values(
+      registroAux.reduce((acc, obj) => {
+        obj.informacionVictimas.map((e) => {
+          acc[e.persona.sexo] = acc[e.persona.sexo] || [];
+          acc[e.persona.sexo].push(e.persona.sexo);
+          return acc;
+        });
+        return acc;
+      }, {})
+    );
+    res.status(201).json({ years: data, departament, sexVictim });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
