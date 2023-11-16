@@ -1,6 +1,5 @@
 import { Router } from "express";
 import * as authCtrl from "../controllers/auth.controller";
-import { isActive } from "../middlewares";
 const router = Router();
 
 //registro de usuario

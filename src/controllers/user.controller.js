@@ -1,6 +1,7 @@
 import BranchOffice from "../models/BranchesOffice";
 import Role from "../models/Role";
 import User, { encryptPassword } from "../models/User";
+const { Op } = require("sequelize");
 
 export const getUsers = async (req, res) => {
   try {
@@ -18,6 +19,48 @@ export const getUsers = async (req, res) => {
         { model: Role, attributes: ["nombre", "id"] },
         { model: BranchOffice, attributes: ["nombre", "id"] },
       ],
+    });
+    res.status(200).json(users);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+export const searchUser = async (req, res) => {
+  const { name } = req.body;
+  try {
+    const users = await User.findAll({
+      attributes: {
+        exclude: [
+          "createdAt",
+          "updatedAt",
+          "sucursalId",
+          "rolId",
+          "contrasenia",
+        ],
+      },
+      include: [
+        { model: Role, attributes: ["nombre", "id"] },
+        { model: BranchOffice, attributes: ["nombre", "id"] },
+      ],
+      where: {
+        [Op.or]: [
+          {
+            nombre: {
+              [Op.iLike]: `%${name}%`,
+            },
+          },
+          {
+            apellido: {
+              [Op.iLike]: `%${name}%`,
+            },
+          },
+          {
+            correoElectronico: {
+              [Op.iLike]: `%${name}%`,
+            },
+          },
+        ],
+      },
     });
     res.status(200).json(users);
   } catch (error) {

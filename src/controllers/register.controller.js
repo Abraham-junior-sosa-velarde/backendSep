@@ -11,6 +11,7 @@ import { Sequelize } from "sequelize";
 import Occupation from "../models/Occupation";
 import InstructionDegree from "../models/InstructionDegree";
 import SexualOrientation from "../models/SexualOrientation";
+const { Op } = require("sequelize");
 
 export const createRegister = async (req, res) => {
   const { register, delito, complainant, perpetrator, victim } = req.body;
@@ -151,6 +152,72 @@ export const getALLRegisters = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+export const searchALLRegisters = async (req, res) => {
+  const { name } = req.body;
+
+  try {
+    const { id } = req.params;
+    const records = await Record.findAll({
+      where: {
+        usuarioId: id,
+        [Op.and]: [
+          Sequelize.literal(
+            `CAST("registros"."id" AS VARCHAR) ILIKE '%${name}%'`
+          ),
+        ],
+      },
+
+      attributes: ["id", "fechaRegistro", "numeroCaso", "tipoAsistencia"],
+      include: [
+        {
+          model: DenouncedInformation,
+          attributes: ["id"],
+          include: [
+            {
+              model: Peoople,
+              attributes: ["nombre", "apellido"],
+            },
+          ],
+        },
+        {
+          model: VictimInformation,
+          attributes: ["id"],
+          include: [
+            {
+              model: Peoople,
+              attributes: ["nombre", "apellido"],
+            },
+          ],
+        },
+        {
+          model: StageCase,
+          attributes: ["id"],
+          include: [
+            {
+              model: ProceduralStage,
+              attributes: ["nombre"],
+            },
+          ],
+        },
+        {
+          model: RegisterCrimes,
+          attributes: ["id"],
+          include: [
+            {
+              model: Crimes,
+              attributes: ["nombre"],
+            },
+          ],
+        },
+      ],
+    });
+    res.status(200).json(records);
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export const deleteRegister = async (req, res) => {
   try {
     const { id } = req.params;

@@ -10,6 +10,7 @@ import RegisterCrimes from "../models/RegisterCrimes";
 import SexualOrientation from "../models/SexualOrientation";
 import StageCase from "../models/StageCase";
 import VictimInformation from "../models/VictimInformation";
+import ProceduralStage from "../models/ProceduralStage";
 
 export const getSpecificReporter = async (req, res) => {
   try {
@@ -227,7 +228,23 @@ export const generalReports = async (req, res) => {
         return acc;
       }, {})
     );
-    res.status(201).json({ years: data, departament, sexVictim });
+
+    const statusCases = await ProceduralStage.findAll({
+      attributes: ["id", "nombre"],
+      include: [
+        {
+          model: StageCase,
+          attributes: [
+            [Sequelize.fn("COUNT", Sequelize.col("etapaCasos.id")), "count"],
+          ],
+        },
+      ],
+      group: ["etapasProcesales.id", "etapaCasos.id"],
+    });
+
+    res
+      .status(201)
+      .json({ status: statusCases, years: data, departament, sexVictim });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
